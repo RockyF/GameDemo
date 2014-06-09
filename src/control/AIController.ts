@@ -3,6 +3,7 @@
  */
 
 ///<reference path="../egret.d.ts"/>
+///<reference path="../control/AIObject.ts"/>
 
 class AIController{
 	private static _instance:AIController;
@@ -12,15 +13,33 @@ class AIController{
 
 	rate:number;
 
-	objects:Array;
+	private _timer:egret.Timer;
+
+	objects:any;
 
 	constructor(rate:number = 500){
 		this.rate = rate;
 		this.objects = [];
+
+		this._timer = new egret.Timer(this.rate);
+		this._timer.addEventListener(egret.TimerEvent.TIMER, this.update, this);
 	}
 
 	start():void{
-		egret.Ticker.getInstance().register(this.update, this);
+		this._timer.start();
+	}
+
+	pause():void{
+		this._timer.stop();
+		egret.Ticker.getInstance().unregister(this.update, this);
+	}
+
+	resume():void{
+		this._timer.start();
+	}
+
+	stop():void{
+		this._timer.stop();
 	}
 
 	update():void{
@@ -28,17 +47,5 @@ class AIController{
 		for(var i = 0, len = this.objects.length; i< len; i++){
 			item.step();
 		}
-	}
-
-	pause():void{
-		egret.Ticker.getInstance().unregister(this.update, this);
-	}
-
-	resume():void{
-		egret.Ticker.getInstance().register(this.update, this);
-	}
-
-	stop():void{
-		egret.Ticker.getInstance().unregister(this.update, this);
 	}
 }

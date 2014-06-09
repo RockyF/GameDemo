@@ -6,9 +6,9 @@
 
 class AIObject{
 
-	static STATE_IDLE:Number = 0;
-	static STATE_WALK:Number = 1;
-	static STATE_ATTACK:Number = 2;
+	static STATE_IDLE:number = 0;
+	static STATE_WALK:number = 1;
+	static STATE_ATTACK:number = 2;
 	static STATE_ESCAPE:number = 3;
 
 	target:RoleObject;
