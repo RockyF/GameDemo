@@ -9,14 +9,14 @@ var game_file_list = [
 	"model/ValueObject.js",
 	"model/SceneVO.js",
 	"model/RoleVO.js",
-	"script/Cowboy.js",
-	"script/GameMain.js",
 	"support/GameObject.js",
 	"support/IAiScript.js",
 	"utils/Utils.js",
-	"view/GameScene.js",
 	"view/SceneGround.js",
 	"view/SceneObject.js",
 	"view/RoleObject.js",
-	"model/Context.js"];
+	"script/Cowboy.js",
+	"script/GameMain.js",
+	"view/GameScene.js",
+	"model/Context.js",];
 var document_class = "GameApp";

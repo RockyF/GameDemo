@@ -3,7 +3,7 @@
  */
 
 class Context{
-	static rm:RoleManager = RoleManager.getInstance();
-	static gs:GameScene = GameScene.getInstance();
+	//static rm:RoleManager = RoleManager.getInstance();
+	//static gs:GameScene = GameScene.getInstance();
 
 }

@@ -1,4 +1,4 @@
-/// <reference path="C:/Users/lenovo/AppData/Roaming/npm/node_modules/egret/src/jslib/DEBUG.d.ts" />
+/// <reference path="C:/Users/RockyF/AppData/Roaming/npm/node_modules/egret/src/jslib/DEBUG.d.ts" />
 /**
 * Copyright (c) 2014,Egret-Labs.org
 * All rights reserved.
