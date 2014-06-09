@@ -14,6 +14,7 @@ var SceneObject = (function (_super) {
     __extends(SceneObject, _super);
     function SceneObject() {
         _super.call(this);
+        this.inScene = false;
 
         this.init();
     }
@@ -21,6 +22,7 @@ var SceneObject = (function (_super) {
     };
 
     SceneObject.prototype.initData = function (vo) {
+        this.vo = vo;
     };
     return SceneObject;
 })(egret.DisplayObjectContainer);

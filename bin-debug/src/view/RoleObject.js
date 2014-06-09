@@ -17,16 +17,22 @@ var RoleObject = (function (_super) {
         this._autoPlay = true;
         this._defaultActionName = NS.ACTION_IDLE;
     }
+    RoleObject.create = function (data) {
+        var instance = new RoleObject();
+        Utils.injectProp(instance, data);
+
+        return instance;
+    };
+
     RoleObject.prototype.init = function () {
         _super.prototype.init.call(this);
 
         this._hpBar = new egret.ProgressBar();
+        this._mcSelect = new egret.Bitmap(RES.getRes("select_png"));
     };
 
     RoleObject.prototype.initData = function (vo) {
         _super.prototype.initData.call(this, vo);
-
-        this.vo = vo;
 
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.loadGroup(vo.skinName);
@@ -69,13 +75,18 @@ var RoleObject = (function (_super) {
             this.playAction(NS.ACTION_WALK);
             this.isWalking = true;
         }
-        egret.Tween.get(this).to({ x: x, y: y }, distance * 10).call(function () {
+        egret.Tween.get(this).to({ x: x, y: y }, distance * (1 / this.vo.speed)).call(function () {
             console.log("Move End!");
             this.playAction(NS.ACTION_IDLE);
             this.isWalking = false;
         });
 
         return true;
+    };
+
+    RoleObject.prototype.flashTo = function (x, y) {
+        this.x = x;
+        this.y = y;
     };
     return RoleObject;
 })(SceneObject);

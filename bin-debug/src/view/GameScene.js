@@ -11,6 +11,7 @@ var __extends = this.__extends || function (d, b) {
 ///<reference path="../model/SceneVO.ts"/>
 ///<reference path="../view/SceneObject.ts"/>
 ///<reference path="../view/SceneGround.ts"/>
+///<reference path="../control/MainController.ts"/>
 var GameScene = (function (_super) {
     __extends(GameScene, _super);
     function GameScene() {
@@ -18,43 +19,49 @@ var GameScene = (function (_super) {
 
         this.init();
     }
+    GameScene.getInstance = function () {
+        return this._instance ? this._instance : this._instance = new GameScene();
+    };
+
     GameScene.prototype.init = function () {
         this.touchEnabled = true;
         this.graphics.beginFill(0x00FFFF, 0.5);
         this.graphics.drawRect(0, 0, 480, 800);
         this.graphics.endFill();
 
-        this.roles = [];
+        this.liveLayer = new egret.DisplayObjectContainer();
+        this.deadLayer = new egret.DisplayObjectContainer();
 
         this.ground = new SceneGround();
         this.addChild(this.ground);
         this.ground.initData(1);
 
-        var vo = new SceneVO();
-        vo.skinName = "cowboy";
-        var so = new RoleObject();
-        so.initData(vo);
-        so.x = 200;
-        so.y = 400;
-        this.addChild(so);
-        this.roles.push(so);
-
-        vo = new SceneVO();
-        vo.skinName = "cowboy";
-        var so = new RoleObject();
-        so.initData(vo);
-        so.x = 400;
-        so.y = 400;
-        this.addChild(so);
-        this.roles.push(so);
-
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSceneClicked, this);
+
+        MainController.getInstance().start();
+    };
+
+    GameScene.prototype.getRoleById = function (id) {
+        return this.roles[id];
     };
 
     GameScene.prototype.onSceneClicked = function (event) {
         //console.log(event.localX, event.localY);
         this.roles[0].walkTo(event.localX, event.localY);
-        this.roles[1].walkTo(event.localX, event.localY);
+    };
+
+    GameScene.prototype.addToScene = function (id) {
+        var ro = this.getRoleById(id);
+        if (ro) {
+            ro.vo.isAlive ? this.liveLayer.addChild(ro) : this.deadLayer.addChild(ro);
+        }
+    };
+
+    GameScene.prototype.removeFromScene = function (id) {
+        var ro = this.getRoleById(id);
+        if (ro) {
+            ro.vo.isAlive ? this.liveLayer.removeChild(ro) : this.deadLayer.removeChild(ro);
+        }
     };
     return GameScene;
 })(egret.Sprite);

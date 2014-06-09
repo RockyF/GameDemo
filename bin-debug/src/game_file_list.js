@@ -25,8 +25,17 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 var game_file_list = [
-    "GameApp.js",
-    "LoadingUI.js"
+	"GameApp.js",
+	"LoadingUI.js",
+	"support/GameObject.js",
+	"model/GameSetting.js",
+	"model/ValueObject.js",
+	"model/SceneVO.js",
+	"model/RoleVO.js",
+	"view/GameScene.js",
+	"view/SceneGround.js",
+	"view/SceneObject.js",
+	"view/RoleObject.js"
 ];
 //在此定义文档类的完整类名，若包含命名空间，需要填写命名空间前缀。
 var document_class = "GameApp";

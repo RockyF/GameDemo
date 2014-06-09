@@ -11,6 +11,11 @@ var SceneVO = (function (_super) {
     __extends(SceneVO, _super);
     function SceneVO() {
         _super.apply(this, arguments);
+        this.speed = 100;
+        this.type = 0;
+        this.keyName = "";
+        this.isAlive = false;
+        this.canMove = true;
     }
     return SceneVO;
 })(ValueObject);

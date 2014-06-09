@@ -8,10 +8,19 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 ///<reference path="SceneVO.ts"/>
+///<reference path="../utils/Utils.ts"/>
 var RoleVO = (function (_super) {
     __extends(RoleVO, _super);
     function RoleVO() {
         _super.apply(this, arguments);
+        this.attackRange = 100;
+        this.attackRate = 3;
     }
+    RoleVO.create = function (data) {
+        var instance = new RoleVO();
+        Utils.injectProp(instance, data);
+
+        return instance;
+    };
     return RoleVO;
 })(SceneVO);
