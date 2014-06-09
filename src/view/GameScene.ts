@@ -29,9 +29,9 @@ class GameScene extends egret.Sprite{
 
 	private init():void{
 		this.touchEnabled = true;
-		this.graphics.beginFill(0x00FFFF, 0.5);
+		/*this.graphics.beginFill(0x00FFFF, 0.5);
 		this.graphics.drawRect(0, 0, 480, 800);
-		this.graphics.endFill();
+		this.graphics.endFill();*/
 
 		this.liveLayer = new egret.DisplayObjectContainer();
 		this.deadLayer = new egret.DisplayObjectContainer();

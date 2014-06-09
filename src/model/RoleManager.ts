@@ -10,7 +10,7 @@ class RoleManager{
 		return this._instance ? this._instance : this._instance = new RoleManager();
 	}
 	
-	roles:Array = [];
+	roles:any = [];
 
 	createRole(data:Object):RoleObject{
 		return RoleObject.create(data);
