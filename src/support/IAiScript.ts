@@ -5,6 +5,5 @@
 interface IAiScript{
 	onCreate():void;
 	onDestroy():void;
-	onSwitchState():void;
 	onStep():void;
 }

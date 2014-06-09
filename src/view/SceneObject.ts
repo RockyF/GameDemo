@@ -8,6 +8,7 @@
 
 class SceneObject extends egret.DisplayObjectContainer{
 	vo:SceneVO;
+	inScene:boolean = false;
 
 	constructor(){
 		super();

@@ -5,15 +5,24 @@
 ///<reference path="SceneObject"/>
 
 class RoleObject extends SceneObject{
+	static create(data:Object){
+		var instance:RoleObject = new RoleObject();
+		Utils.injectProp(instance, data);
+		
+		return instance;
+	}
+	
 	armature:dragonBones.Armature;
 	armatureDisplay:any;
 
 	isWalking:boolean = false;
 
-	_hpBar:egret.ProgressBar;
 	_fadeinTime:number = -1;
 	_autoPlay:boolean = true;
 	_defaultActionName:string = NS.ACTION_IDLE;
+
+	_hpBar:egret.ProgressBar;
+	_mcSelect:egret.Bitmap;
 
 	constructor(){
 		super();
@@ -23,6 +32,7 @@ class RoleObject extends SceneObject{
 		super.init();
 
 		this._hpBar = new egret.ProgressBar();
+		this._mcSelect = new egret.Bitmap(RES.getRes("select_png"));
 	}
 
 	initData(vo:RoleVO){
@@ -63,19 +73,23 @@ class RoleObject extends SceneObject{
 	walkTo(x:number, y:number):boolean{
 		this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
-
 		var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
 		egret.Tween.removeTweens(this);
 		if(!this.isWalking){
 			this.playAction(NS.ACTION_WALK);
 			this.isWalking = true;
 		}
-		egret.Tween.get(this).to({x:x, y:y}, distance * 10).call(function (){
+		egret.Tween.get(this).to({x:x, y:y}, distance * (1 / this.vo.speed)).call(function (){
 			console.log("Move End!");
 			this.playAction(NS.ACTION_IDLE);
 			this.isWalking = false;
 		});
 
 		return true;
+	}
+
+	flashTo(x:number, y:number):void{
+		this.x = x;
+		this.y = y;
 	}
 }

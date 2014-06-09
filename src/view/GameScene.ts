@@ -6,9 +6,18 @@
 ///<reference path="../model/SceneVO.ts"/>
 ///<reference path="../view/SceneObject.ts"/>
 ///<reference path="../view/SceneGround.ts"/>
+///<reference path="../control/MainController.ts"/>
 
 class GameScene extends egret.Sprite{
+	private static _instance:GameScene;
+	public static getInstance():GameScene{
+		return this._instance ? this._instance : this._instance = new GameScene();
+	}
+	
 	ground:SceneGround;
+
+	liveLayer:egret.DisplayObjectContainer;
+	deadLayer:egret.DisplayObjectContainer;
 
 	roles:any;
 
@@ -24,35 +33,38 @@ class GameScene extends egret.Sprite{
 		this.graphics.drawRect(0, 0, 480, 800);
 		this.graphics.endFill();
 
-		this.roles = [];
+		this.liveLayer = new egret.DisplayObjectContainer();
+		this.deadLayer = new egret.DisplayObjectContainer();
 
 		this.ground = new SceneGround();
 		this.addChild(this.ground);
 		this.ground.initData(1);
 
-		var vo:SceneVO = new SceneVO();
-		vo.skinName = "cowboy";
-		var so:SceneObject = new RoleObject();
-		so.initData(vo);
-		so.x = 200;
-		so.y = 400;
-		this.addChild(so);
-		this.roles.push(so);
-
-		vo = new SceneVO();
-		vo.skinName = "cowboy";
-		var so:SceneObject = new RoleObject();
-		so.initData(vo);
-		so.x = 400;
-		so.y = 400;
-		this.addChild(so);
-		this.roles.push(so);
-
 		this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSceneClicked, this);
+
+		MainController.getInstance().start();
+	}
+
+	getRoleById(id:number):RoleObject{
+		return this.roles[id];
 	}
 
 	private onSceneClicked(event:egret.TouchEvent):void{
 		//console.log(event.localX, event.localY);
 		this.roles[0].walkTo(event.localX, event.localY);
+	}
+
+	addToScene(id:number):void{
+		var ro:RoleObject = this.getRoleById(id);
+		if(ro){
+			ro.vo.isAlive ? this.liveLayer.addChild(ro) : this.deadLayer.addChild(ro);
+		}
+	}
+
+	removeFromScene(id:number):void{
+		var ro:RoleObject = this.getRoleById(id);
+		if(ro){
+			ro.vo.isAlive ? this.liveLayer.removeChild(ro) : this.deadLayer.removeChild(ro);
+		}
 	}
 }
