@@ -1,6 +1,9 @@
 var game_file_list = [
 	"GameApp.js",
 	"LoadingUI.js",
+	"support/GameObject.js",
+	"support/IScript.js",
+	"support/Behavior.js",
 	"control/ScriptController.js",
 	"control/ScriptObject.js",
 	"control/MainController.js",
@@ -9,8 +12,6 @@ var game_file_list = [
 	"model/ValueObject.js",
 	"model/SceneVO.js",
 	"model/RoleVO.js",
-	"support/GameObject.js",
-	"support/IAiScript.js",
 	"utils/Utils.js",
 	"view/SelectShape.js",
 	"view/SceneGround.js",

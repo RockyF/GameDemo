@@ -1,7 +1,7 @@
 /**
 * Created by lenovo on 2014/6/6.
 */
-///<reference path="../support/IAiScript.ts"/>
+///<reference path="../support/IScript.ts"/>
 var AIObject = (function () {
     function AIObject(target) {
         this.state = AIObject.STATE_IDLE;

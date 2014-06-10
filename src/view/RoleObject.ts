@@ -17,6 +17,7 @@ class RoleObject extends SceneObject{
 	armatureDisplay:any;
 
 	isWalking:boolean = false;
+	desPoint:egret.Point = new egret.Point();
 
 	_fadeinTime:number = -1;
 	_autoPlay:boolean = true;
@@ -39,32 +40,39 @@ class RoleObject extends SceneObject{
 	initData(vo:RoleVO){
 		super.initData(vo);
 
-		RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
-		RES.loadGroup(vo.skinName);
-
 		this._selectShape.resize();
 		this.addChild(this._selectShape);
+
+		if(RES.getRes(this.vo.skinName + "_skeleton_json")){
+			this.initArmature();
+		}else{
+			RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+			RES.loadGroup(vo.skinName);
+		}
 	}
 
 	private onResourceLoadComplete(event:RES.ResourceEvent):void {
 		if (event.groupName == this.vo.skinName) {
 			RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+			this.initArmature();
+		}
+	}
 
-			var skeletonData = RES.getRes(this.vo.skinName + "_skeleton_json");
-			var textureData = RES.getRes(this.vo.skinName + "_texture_json");
-			var texture = RES.getRes(this.vo.skinName + "_texture_png");
+	initArmature():void{
+		var skeletonData = RES.getRes(this.vo.skinName + "_skeleton_json");
+		var textureData = RES.getRes(this.vo.skinName + "_texture_json");
+		var texture = RES.getRes(this.vo.skinName + "_texture_png");
 
-			var factory = new dragonBones.factorys.EgretFactory();
-			factory.addSkeletonData(dragonBones.objects.DataParser.parseSkeletonData(skeletonData));
-			factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
+		var factory = new dragonBones.factorys.EgretFactory();
+		factory.addSkeletonData(dragonBones.objects.DataParser.parseSkeletonData(skeletonData));
+		factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
 
-			this.armature = factory.buildArmature(this.vo.skinName);
-			this.armatureDisplay = this.armature.getDisplay();
-			dragonBones.animation.WorldClock.clock.add(this.armature);
-			this.addChild(this.armatureDisplay);
-			if(this._autoPlay){
-				this.playAction(this._defaultActionName);
-			}
+		this.armature = factory.buildArmature(this.vo.skinName);
+		this.armatureDisplay = this.armature.getDisplay();
+		dragonBones.animation.WorldClock.clock.add(this.armature);
+		this.addChild(this.armatureDisplay);
+		if(this._autoPlay){
+			this.playAction(this._defaultActionName);
 		}
 	}
 
@@ -75,6 +83,10 @@ class RoleObject extends SceneObject{
 	}
 
 	walkTo(x:number, y:number):boolean{
+		if(!this.setDesPoint(x, y)){
+			return true;
+		}
+
 		this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
 		var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
@@ -93,8 +105,30 @@ class RoleObject extends SceneObject{
 		return true;
 	}
 
-	flashTo(x:number, y:number):void{
+	stop():void{
+		if(this.isWalking){
+			egret.Tween.removeTweens(this);
+			console.log("Move End!");
+			this.playAction(NS.ACTION_IDLE);
+			this.isWalking = false;
+		}
+	}
+
+	flashTo(x:number, y:number):boolean{
+		if(!this.setDesPoint(x, y)){
+			return true;
+		}
+
+		this.stop();
 		this.x = x;
 		this.y = y;
+
+		return true;
+	}
+
+	setDesPoint(x:number, y:number):boolean{
+		this.desPoint.x = x;
+		this.desPoint.y = y;
+		return this.desPoint.x != this.x && this.desPoint.y != this.y;
 	}
 }

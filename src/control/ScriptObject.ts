@@ -2,7 +2,7 @@
  * Created by lenovo on 2014/6/6.
  */
 
-///<reference path="../support/IAiScript.ts"/>
+///<reference path="../support/IScript.ts"/>
 
 class ScriptObject{
 
@@ -16,7 +16,7 @@ class ScriptObject{
 
 	state:number = ScriptObject.STATE_IDLE;
 
-	private _aiInstance:IAiScript;
+	private _scriptInstance:IScript;
 
 	constructor(target:Object = null){
 		this.target = target;
@@ -34,16 +34,17 @@ class ScriptObject{
 		this.setInstance(new clazz());
 	}
 
-	setInstance(instance:IAiScript){
-		this._aiInstance = instance;
-		this._aiInstance.onCreate();
+	setInstance(instance:IScript){
+		this._scriptInstance = instance;
+		Utils.injectProp(this._scriptInstance, {target: this.target});
+		this._scriptInstance.onCreate();
 	}
 
 	step():void{
-		this._aiInstance.onStep();
+		this._scriptInstance.onStep();
 	}
 
 	destory():void{
-		this._aiInstance.onDestroy();
+		this._scriptInstance.onDestroy();
 	}
 }

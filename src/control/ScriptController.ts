@@ -20,7 +20,7 @@ class ScriptController{
 
 	objects:any;
 
-	constructor(rate:number = 500){
+	constructor(rate:number = 10){
 		this.rate = rate;
 		this.objects = [];
 
@@ -46,7 +46,8 @@ class ScriptController{
 	}
 
 	register(clazz:Object){
-		this.objects.push(new ScriptObject(clazz));
+		var so:ScriptObject = new ScriptObject(clazz);
+		this.objects.push(so);
 	}
 
 	unregister(clazz:Object){

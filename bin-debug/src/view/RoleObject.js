@@ -13,6 +13,7 @@ var RoleObject = (function (_super) {
     function RoleObject() {
         _super.call(this);
         this.isWalking = false;
+        this.desPoint = new egret.Point();
         this._fadeinTime = -1;
         this._autoPlay = true;
         this._defaultActionName = NS.ACTION_IDLE;
@@ -35,32 +36,39 @@ var RoleObject = (function (_super) {
     RoleObject.prototype.initData = function (vo) {
         _super.prototype.initData.call(this, vo);
 
-        RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
-        RES.loadGroup(vo.skinName);
-
         this._selectShape.resize();
         this.addChild(this._selectShape);
+
+        if (RES.getRes(this.vo.skinName + "_skeleton_json")) {
+            this.initArmature();
+        } else {
+            RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+            RES.loadGroup(vo.skinName);
+        }
     };
 
     RoleObject.prototype.onResourceLoadComplete = function (event) {
         if (event.groupName == this.vo.skinName) {
             RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+            this.initArmature();
+        }
+    };
 
-            var skeletonData = RES.getRes(this.vo.skinName + "_skeleton_json");
-            var textureData = RES.getRes(this.vo.skinName + "_texture_json");
-            var texture = RES.getRes(this.vo.skinName + "_texture_png");
+    RoleObject.prototype.initArmature = function () {
+        var skeletonData = RES.getRes(this.vo.skinName + "_skeleton_json");
+        var textureData = RES.getRes(this.vo.skinName + "_texture_json");
+        var texture = RES.getRes(this.vo.skinName + "_texture_png");
 
-            var factory = new dragonBones.factorys.EgretFactory();
-            factory.addSkeletonData(dragonBones.objects.DataParser.parseSkeletonData(skeletonData));
-            factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
+        var factory = new dragonBones.factorys.EgretFactory();
+        factory.addSkeletonData(dragonBones.objects.DataParser.parseSkeletonData(skeletonData));
+        factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
 
-            this.armature = factory.buildArmature(this.vo.skinName);
-            this.armatureDisplay = this.armature.getDisplay();
-            dragonBones.animation.WorldClock.clock.add(this.armature);
-            this.addChild(this.armatureDisplay);
-            if (this._autoPlay) {
-                this.playAction(this._defaultActionName);
-            }
+        this.armature = factory.buildArmature(this.vo.skinName);
+        this.armatureDisplay = this.armature.getDisplay();
+        dragonBones.animation.WorldClock.clock.add(this.armature);
+        this.addChild(this.armatureDisplay);
+        if (this._autoPlay) {
+            this.playAction(this._defaultActionName);
         }
     };
 
@@ -71,6 +79,10 @@ var RoleObject = (function (_super) {
     };
 
     RoleObject.prototype.walkTo = function (x, y) {
+        if (!this.setDesPoint(x, y)) {
+            return true;
+        }
+
         this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
         var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
@@ -89,9 +101,31 @@ var RoleObject = (function (_super) {
         return true;
     };
 
+    RoleObject.prototype.stop = function () {
+        if (this.isWalking) {
+            egret.Tween.removeTweens(this);
+            console.log("Move End!");
+            this.playAction(NS.ACTION_IDLE);
+            this.isWalking = false;
+        }
+    };
+
     RoleObject.prototype.flashTo = function (x, y) {
+        if (!this.setDesPoint(x, y)) {
+            return true;
+        }
+
+        this.stop();
         this.x = x;
         this.y = y;
+
+        return true;
+    };
+
+    RoleObject.prototype.setDesPoint = function (x, y) {
+        this.desPoint.x = x;
+        this.desPoint.y = y;
+        return this.desPoint.x != this.x && this.desPoint.y != this.y;
     };
     return RoleObject;
 })(SceneObject);
