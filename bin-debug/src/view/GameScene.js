@@ -9,6 +9,7 @@ var __extends = this.__extends || function (d, b) {
 };
 ///<reference path="../egret.d.ts"/>
 ///<reference path="../model/SceneVO.ts"/>
+///<reference path="../model/RoleManager.ts"/>
 ///<reference path="../view/SceneObject.ts"/>
 ///<reference path="../view/SceneGround.ts"/>
 ///<reference path="../control/MainController.ts"/>
@@ -20,7 +21,10 @@ var GameScene = (function (_super) {
         this.init();
     }
     GameScene.getInstance = function () {
-        return this._instance ? this._instance : this._instance = new GameScene();
+        if (GameScene._instance == undefined) {
+            GameScene._instance = new GameScene();
+        }
+        return GameScene._instance;
     };
 
     GameScene.prototype.init = function () {
@@ -29,36 +33,40 @@ var GameScene = (function (_super) {
         /*this.graphics.beginFill(0x00FFFF, 0.5);
         this.graphics.drawRect(0, 0, 480, 800);
         this.graphics.endFill();*/
-        this.liveLayer = new egret.DisplayObjectContainer();
-        this.deadLayer = new egret.DisplayObjectContainer();
-
         this.ground = new SceneGround();
         this.addChild(this.ground);
         this.ground.initData(1);
+
+        this.deadLayer = new egret.DisplayObjectContainer();
+        this.addChild(this.deadLayer);
+        this.liveLayer = new egret.DisplayObjectContainer();
+        this.addChild(this.liveLayer);
 
         this.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onSceneClicked, this);
 
         MainController.getInstance().start();
     };
 
-    GameScene.prototype.getRoleById = function (id) {
-        return this.roles[id];
-    };
-
     GameScene.prototype.onSceneClicked = function (event) {
         //console.log(event.localX, event.localY);
-        this.roles[0].walkTo(event.localX, event.localY);
+        var ro = RoleManager.getInstance().getRoleById(0);
+        ro.walkTo(event.localX, event.localY);
     };
 
     GameScene.prototype.addToScene = function (id) {
-        var ro = this.getRoleById(id);
+        var ro = RoleManager.getInstance().getRoleById(id);
         if (ro) {
-            ro.vo.isAlive ? this.liveLayer.addChild(ro) : this.deadLayer.addChild(ro);
+            if (ro.vo.isAlive) {
+                this.liveLayer.addChild(ro);
+            } else {
+                this.deadLayer.addChild(ro);
+            }
+            ScriptController.getInstance().register(ro);
         }
     };
 
     GameScene.prototype.removeFromScene = function (id) {
-        var ro = this.getRoleById(id);
+        var ro = RoleManager.getInstance().getRoleById(id);
         if (ro) {
             ro.vo.isAlive ? this.liveLayer.removeChild(ro) : this.deadLayer.removeChild(ro);
         }

@@ -12,11 +12,12 @@ var Utils = (function () {
 
         var result = true;
         for (var key in data) {
-            if (target.hasOwnProperty(key)) {
-                target[key] = data[key];
-            } else {
-                result = false;
-            }
+            /*if(target.hasOwnProperty(key)){
+            target[key] = data[key];
+            }else{
+            result = false;
+            }*/
+            target[key] = data[key];
         }
         return result;
     };

@@ -2,7 +2,7 @@
 * Created by lenovo on 2014/6/6.
 */
 ///<reference path="../egret.d.ts"/>
-///<reference path="../control/AIObject.ts"/>
+///<reference path="../control/ScriptObject.ts"/>
 var AIController = (function () {
     function AIController(rate) {
         if (typeof rate === "undefined") { rate = 500; }

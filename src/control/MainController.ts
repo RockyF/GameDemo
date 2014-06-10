@@ -2,12 +2,15 @@
  * Created by lenovo on 2014/6/9.
  */
 
-///<reference path="AIController.ts"/>
+///<reference path="ScriptController.ts"/>
 
 class MainController{
 	private static _instance:MainController;
 	public static getInstance():MainController{
-		return this._instance ? this._instance : this._instance = new MainController();
+		if(MainController._instance == undefined){
+			MainController._instance = new MainController();
+		}
+		return MainController._instance;
 	}
 	
 	constructor(){
@@ -15,10 +18,13 @@ class MainController{
 	}
 
 	start():void{
-		AIController.getInstance().start();
+		setTimeout(function(){
+			ScriptController.getInstance().start();
+			ScriptController.getInstance().register("GameMain");
+		}, 1000);
 	}
 
 	stop():void{
-		AIController.getInstance().stop();
+		ScriptController.getInstance().stop();
 	}
 }

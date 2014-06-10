@@ -97,7 +97,7 @@ class GameApp extends egret.DisplayObjectContainer {
 			dragonBones.animation.WorldClock.clock.advanceTime(advancedTime / 1000);
 		}, this);
 
-		this.addChild(new GameScene());
+		this.addChild(GameScene.getInstance());
 	}
 }
 

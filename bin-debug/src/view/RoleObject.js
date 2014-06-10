@@ -19,7 +19,8 @@ var RoleObject = (function (_super) {
     }
     RoleObject.create = function (data) {
         var instance = new RoleObject();
-        Utils.injectProp(instance, data);
+        var vo = RoleVO.create(data);
+        instance.initData(vo);
 
         return instance;
     };
@@ -36,6 +37,10 @@ var RoleObject = (function (_super) {
 
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.loadGroup(vo.skinName);
+
+        this._mcSelect.anchorX = 0.5;
+        this._mcSelect.anchorY = 0.5;
+        this.addChild(this._mcSelect);
     };
 
     RoleObject.prototype.onResourceLoadComplete = function (event) {
@@ -75,7 +80,7 @@ var RoleObject = (function (_super) {
             this.playAction(NS.ACTION_WALK);
             this.isWalking = true;
         }
-        egret.Tween.get(this).to({ x: x, y: y }, distance * (1 / this.vo.speed)).call(function () {
+        egret.Tween.get(this).to({ x: x, y: y }, distance * (1000 / this.vo.speed)).call(function () {
             console.log("Move End!");
             this.playAction(NS.ACTION_IDLE);
             this.isWalking = false;

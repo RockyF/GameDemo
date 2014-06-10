@@ -7,13 +7,18 @@
 class RoleManager{
 	private static _instance:RoleManager;
 	public static getInstance():RoleManager{
-		return this._instance ? this._instance : this._instance = new RoleManager();
+		if(RoleManager._instance == undefined){
+			RoleManager._instance = new RoleManager();
+		}
+		return RoleManager._instance;
 	}
 	
 	roles:any = [];
 
 	createRole(data:Object):RoleObject{
-		return RoleObject.create(data);
+		var ro:RoleObject = RoleObject.create(data);
+		this.roles[ro.vo.id] = ro;
+		return ro;
 	}
 
 	getRoleById(id:number):RoleObject{

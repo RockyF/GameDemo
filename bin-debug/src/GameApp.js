@@ -92,7 +92,7 @@ var GameApp = (function (_super) {
             dragonBones.animation.WorldClock.clock.advanceTime(advancedTime / 1000);
         }, this);
 
-        this.addChild(new GameScene());
+        this.addChild(GameScene.getInstance());
     };
     return GameApp;
 })(egret.DisplayObjectContainer);

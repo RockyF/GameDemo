@@ -10,12 +10,14 @@ var __extends = this.__extends || function (d, b) {
 var SceneVO = (function (_super) {
     __extends(SceneVO, _super);
     function SceneVO() {
-        _super.apply(this, arguments);
+        this.id = SceneVO.ID_INK;
         this.speed = 100;
         this.type = 0;
         this.keyName = "";
-        this.isAlive = false;
+        this.isAlive = true;
         this.canMove = true;
+        SceneVO.ID_INK++;
     }
+    SceneVO.ID_INK = 0;
     return SceneVO;
 })(ValueObject);

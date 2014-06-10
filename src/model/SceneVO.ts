@@ -3,6 +3,8 @@
  */
 
 class SceneVO extends ValueObject{
+	private static ID_INK:number = 0;
+
 	skinName:string;
 
 	name:string;
@@ -14,6 +16,11 @@ class SceneVO extends ValueObject{
 	type:number = 0;
 	keyName:string = "";
 
-	isAlive:boolean = false;
+	isAlive:boolean = true;
 	canMove:boolean = true;
+
+	constructor(){
+		this.id = SceneVO.ID_INK;
+		SceneVO.ID_INK++;
+	}
 }

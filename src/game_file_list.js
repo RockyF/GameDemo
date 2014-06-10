@@ -1,8 +1,8 @@
 var game_file_list = [
 	"GameApp.js",
 	"LoadingUI.js",
-	"control/AIController.js",
-	"control/AIObject.js",
+	"control/ScriptController.js",
+	"control/ScriptObject.js",
 	"control/MainController.js",
 	"model/GameSetting.js",
 	"model/RoleManager.js",

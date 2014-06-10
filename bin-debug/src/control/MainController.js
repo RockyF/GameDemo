@@ -1,20 +1,26 @@
 /**
 * Created by lenovo on 2014/6/9.
 */
-///<reference path="AIController.ts"/>
+///<reference path="ScriptController.ts"/>
 var MainController = (function () {
     function MainController() {
     }
     MainController.getInstance = function () {
-        return this._instance ? this._instance : this._instance = new MainController();
+        if (MainController._instance == undefined) {
+            MainController._instance = new MainController();
+        }
+        return MainController._instance;
     };
 
     MainController.prototype.start = function () {
-        AIController.getInstance().start();
+        setTimeout(function () {
+            ScriptController.getInstance().start();
+            ScriptController.getInstance().register("GameMain");
+        }, 1000);
     };
 
     MainController.prototype.stop = function () {
-        AIController.getInstance().stop();
+        ScriptController.getInstance().stop();
     };
     return MainController;
 })();

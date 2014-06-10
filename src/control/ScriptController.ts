@@ -3,12 +3,15 @@
  */
 
 ///<reference path="../egret.d.ts"/>
-///<reference path="../control/AIObject.ts"/>
+///<reference path="ScriptObject.ts"/>
 
-class AIController{
-	private static _instance:AIController;
-	public static getInstance():AIController{
-		return this._instance ? this._instance : this._instance = new AIController();
+class ScriptController{
+	private static _instance:ScriptController;
+	public static getInstance():ScriptController{
+		if(ScriptController._instance == undefined){
+			ScriptController._instance = new ScriptController();
+		}
+		return ScriptController._instance;
 	}
 
 	rate:number;
@@ -42,9 +45,18 @@ class AIController{
 		this._timer.stop();
 	}
 
+	register(clazz:Object){
+		this.objects.push(new ScriptObject(clazz));
+	}
+
+	unregister(clazz:Object){
+
+	}
+
 	update():void{
-		var item:AIObject;
+		var item:ScriptObject;
 		for(var i = 0, len = this.objects.length; i< len; i++){
+			item = this.objects[i];
 			item.step();
 		}
 	}

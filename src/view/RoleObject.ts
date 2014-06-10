@@ -7,7 +7,8 @@
 class RoleObject extends SceneObject{
 	static create(data:Object){
 		var instance:RoleObject = new RoleObject();
-		Utils.injectProp(instance, data);
+		var vo:RoleVO = RoleVO.create(data);
+		instance.initData(vo);
 		
 		return instance;
 	}
@@ -40,6 +41,10 @@ class RoleObject extends SceneObject{
 
 		RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
 		RES.loadGroup(vo.skinName);
+
+		this._mcSelect.anchorX = 0.5;
+		this._mcSelect.anchorY = 0.5;
+		this.addChild(this._mcSelect);
 	}
 
 	private onResourceLoadComplete(event:RES.ResourceEvent):void {
@@ -74,12 +79,14 @@ class RoleObject extends SceneObject{
 		this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
 		var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
-		egret.Tween.removeTweens(this);
+		if(egret.Tween.hasAnimation(this)){
+			egret.Tween.removeTweens(this);
+		}
 		if(!this.isWalking){
 			this.playAction(NS.ACTION_WALK);
 			this.isWalking = true;
 		}
-		egret.Tween.get(this).to({x:x, y:y}, distance * (1 / this.vo.speed)).call(function (){
+		egret.Tween.get(this).to({x:x, y:y}, distance * (1000 / this.vo.speed)).call(function (){
 			console.log("Move End!");
 			this.playAction(NS.ACTION_IDLE);
 			this.isWalking = false;

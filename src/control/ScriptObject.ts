@@ -4,25 +4,38 @@
 
 ///<reference path="../support/IAiScript.ts"/>
 
-class AIObject{
+class ScriptObject{
 
 	static STATE_IDLE:number = 0;
 	static STATE_WALK:number = 1;
 	static STATE_ATTACK:number = 2;
 	static STATE_ESCAPE:number = 3;
 
-	target:RoleObject;
+	target:Object;
 	keyName:string;
 
-	state:number = AIObject.STATE_IDLE;
+	state:number = ScriptObject.STATE_IDLE;
 
 	private _aiInstance:IAiScript;
 
-	constructor(target:RoleObject){
+	constructor(target:Object = null){
 		this.target = target;
-		this.keyName = this.target.vo.keyName;
+
+		if(typeof target == "string"){
+			this.setKeyName(String(target));
+		}else if(target instanceof RoleObject){
+			this.setKeyName(this.target["vo"].keyName);
+		}
+	}
+
+	setKeyName(keyName:String):void{
+		this.keyName = keyName;
 		var clazz = egret.getDefinitionByName(this.keyName);
-		this._aiInstance = new clazz();
+		this.setInstance(new clazz());
+	}
+
+	setInstance(instance:IAiScript){
+		this._aiInstance = instance;
 		this._aiInstance.onCreate();
 	}
 
