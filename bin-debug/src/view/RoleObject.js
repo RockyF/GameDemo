@@ -11,12 +11,16 @@ var __extends = this.__extends || function (d, b) {
 var RoleObject = (function (_super) {
     __extends(RoleObject, _super);
     function RoleObject() {
+        var _this = this;
         _super.call(this);
         this.isWalking = false;
         this.desPoint = new egret.Point();
         this._fadeinTime = -1;
         this._autoPlay = true;
         this._defaultActionName = NS.ACTION_IDLE;
+        this.onComplete = function (event) {
+            _this.playAction(NS.ACTION_IDLE);
+        };
     }
     RoleObject.create = function (data) {
         var instance = new RoleObject();
@@ -63,6 +67,7 @@ var RoleObject = (function (_super) {
         factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
 
         this.armature = factory.buildArmature(this.vo.skinName);
+        this.armature.addEventListener(dragonBones.events.AnimationEvent.COMPLETE, this.onComplete);
         this.armatureDisplay = this.armature.getDisplay();
         dragonBones.animation.WorldClock.clock.add(this.armature);
         this.addChild(this.armatureDisplay);
@@ -104,7 +109,8 @@ var RoleObject = (function (_super) {
     RoleObject.prototype.stop = function () {
         if (this.isWalking) {
             egret.Tween.removeTweens(this);
-            console.log("Move End!");
+
+            //console.log("Move End!");
             this.playAction(NS.ACTION_IDLE);
             this.isWalking = false;
         }

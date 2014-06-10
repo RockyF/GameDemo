@@ -42,6 +42,7 @@ class RoleManager{
 	roleAttack(id:number):void{
 		var ro:RoleObject = this.getRoleById(id);
 		if(ro){
+			ro.stop();
 			ro.playAction("attack", false);
 		}
 	}

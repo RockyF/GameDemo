@@ -68,6 +68,7 @@ class RoleObject extends SceneObject{
 		factory.addTextureAtlas(new dragonBones.textures.EgretTextureAtlas(texture, textureData));
 
 		this.armature = factory.buildArmature(this.vo.skinName);
+		this.armature.addEventListener(dragonBones.events.AnimationEvent.COMPLETE, this.onComplete);
 		this.armatureDisplay = this.armature.getDisplay();
 		dragonBones.animation.WorldClock.clock.add(this.armature);
 		this.addChild(this.armatureDisplay);
@@ -75,6 +76,10 @@ class RoleObject extends SceneObject{
 			this.playAction(this._defaultActionName);
 		}
 	}
+
+	private onComplete=(event:dragonBones.events.AnimationEvent):void=>{
+		this.playAction(NS.ACTION_IDLE);
+	};
 
 	playAction(actionName:string, loop:boolean = true){
 		if(this.armature.animation.hasAnimation(actionName)){
@@ -108,7 +113,7 @@ class RoleObject extends SceneObject{
 	stop():void{
 		if(this.isWalking){
 			egret.Tween.removeTweens(this);
-			console.log("Move End!");
+			//console.log("Move End!");
 			this.playAction(NS.ACTION_IDLE);
 			this.isWalking = false;
 		}
