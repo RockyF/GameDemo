@@ -38,4 +38,11 @@ class RoleManager{
 			ro.flashTo(x, y);
 		}
 	}
+
+	roleAttack(id:number):void{
+		var ro:RoleObject = this.getRoleById(id);
+		if(ro){
+			ro.playAction("attack", false);
+		}
+	}
 }

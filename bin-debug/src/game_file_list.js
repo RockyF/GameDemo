@@ -13,6 +13,7 @@ var game_file_list = [
 	"model/SceneVO.js",
 	"model/RoleVO.js",
 	"utils/Utils.js",
+	"view/UILayer.js",
 	"view/SelectShape.js",
 	"view/SceneGround.js",
 	"view/SceneObject.js",

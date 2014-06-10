@@ -28,6 +28,7 @@
 ///<reference path="egret.d.ts"/>
 ///<reference path="LoadingUI.ts"/>x
 ///<reference path="view/GameScene.ts"/>
+///<reference path="view/UILayer.ts"/>
 
 class GameApp extends egret.DisplayObjectContainer {
 
@@ -42,6 +43,7 @@ class GameApp extends egret.DisplayObjectContainer {
 	}
 
 	private onAddToStage(event:egret.Event) {
+		egret.Profiler.getInstance().run();
 		//注入自定义的素材解析器
 		//egret.Injector.mapClass("egret.IAssetAdapter", AssetAdapter);
 		//注入自定义的皮肤解析器
@@ -98,6 +100,7 @@ class GameApp extends egret.DisplayObjectContainer {
 		}, this);
 
 		this.addChild(GameScene.getInstance());
+		this.addChild(UILayer.getInstance());
 	}
 }
 

@@ -30,15 +30,14 @@ var RoleObject = (function (_super) {
         _super.prototype.init.call(this);
 
         this._hpBar = new egret.ProgressBar();
-        this._selectShape = new SelectShape();
+        //this._selectShape = new SelectShape();
     };
 
     RoleObject.prototype.initData = function (vo) {
         _super.prototype.initData.call(this, vo);
 
-        this._selectShape.resize();
-        this.addChild(this._selectShape);
-
+        //this._selectShape.resize();
+        //this.addChild(this._selectShape);
         if (RES.getRes(this.vo.skinName + "_skeleton_json")) {
             this.initArmature();
         } else {
@@ -72,9 +71,10 @@ var RoleObject = (function (_super) {
         }
     };
 
-    RoleObject.prototype.playAction = function (actionName) {
+    RoleObject.prototype.playAction = function (actionName, loop) {
+        if (typeof loop === "undefined") { loop = true; }
         if (this.armature.animation.hasAnimation(actionName)) {
-            this.armature.animation.gotoAndPlay(actionName, this._fadeinTime, -1, 0);
+            this.armature.animation.gotoAndPlay(actionName, this._fadeinTime, -1, loop ? 0 : 1);
         }
     };
 

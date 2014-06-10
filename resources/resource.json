@@ -1,9 +1,9 @@
 {
 	"resources": [
 		{
-			"name": "select_png",
+			"name": "btn_png",
 			"type": "image",
-			"url": "assets/images/select.png"
+			"url": "assets/images/btn.png"
 		},
 		{
 			"name": "cowboy_skeleton_json",
@@ -77,7 +77,7 @@
 	"groups": [
 		{
 			"name": "preload",
-			"keys": "select_png"
+			"keys": "btn_png"
 		},
 		{
 			"name": "ui",

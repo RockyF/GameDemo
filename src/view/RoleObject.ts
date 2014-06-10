@@ -34,14 +34,14 @@ class RoleObject extends SceneObject{
 		super.init();
 
 		this._hpBar = new egret.ProgressBar();
-		this._selectShape = new SelectShape();
+		//this._selectShape = new SelectShape();
 	}
 
 	initData(vo:RoleVO){
 		super.initData(vo);
 
-		this._selectShape.resize();
-		this.addChild(this._selectShape);
+		//this._selectShape.resize();
+		//this.addChild(this._selectShape);
 
 		if(RES.getRes(this.vo.skinName + "_skeleton_json")){
 			this.initArmature();
@@ -76,9 +76,9 @@ class RoleObject extends SceneObject{
 		}
 	}
 
-	playAction(actionName:string){
+	playAction(actionName:string, loop:boolean = true){
 		if(this.armature.animation.hasAnimation(actionName)){
-			this.armature.animation.gotoAndPlay(actionName, this._fadeinTime, -1, 0);
+			this.armature.animation.gotoAndPlay(actionName, this._fadeinTime, -1, loop ? 0 : 1);
 		}
 	}
 

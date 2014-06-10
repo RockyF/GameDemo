@@ -33,6 +33,7 @@ var __extends = this.__extends || function (d, b) {
 ///<reference path="egret.d.ts"/>
 ///<reference path="LoadingUI.ts"/>x
 ///<reference path="view/GameScene.ts"/>
+///<reference path="view/UILayer.ts"/>
 var GameApp = (function (_super) {
     __extends(GameApp, _super);
     function GameApp() {
@@ -40,6 +41,8 @@ var GameApp = (function (_super) {
         this.addEventListener(egret.Event.ADDED_TO_STAGE, this.onAddToStage, this);
     }
     GameApp.prototype.onAddToStage = function (event) {
+        egret.Profiler.getInstance().run();
+
         //注入自定义的素材解析器
         //egret.Injector.mapClass("egret.IAssetAdapter", AssetAdapter);
         //注入自定义的皮肤解析器
@@ -93,6 +96,7 @@ var GameApp = (function (_super) {
         }, this);
 
         this.addChild(GameScene.getInstance());
+        this.addChild(UILayer.getInstance());
     };
     return GameApp;
 })(egret.DisplayObjectContainer);

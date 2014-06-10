@@ -9,7 +9,9 @@ class Cowboy extends Behavior implements IScript{
 	ro:RoleObject;
 
 	onStep():void {
-
+		if(this.ro.x > 400){
+			//this.ro.playAction("attack");
+		}
 	}
 
 	onCreate():void {
