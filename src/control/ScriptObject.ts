@@ -28,7 +28,7 @@ class ScriptObject{
 		}
 	}
 
-	setKeyName(keyName:String):void{
+	setKeyName(keyName:string):void{
 		this.keyName = keyName;
 		var clazz = egret.getDefinitionByName(this.keyName);
 		this.setInstance(new clazz());

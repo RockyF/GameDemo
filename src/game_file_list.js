@@ -12,6 +12,7 @@ var game_file_list = [
 	"support/GameObject.js",
 	"support/IAiScript.js",
 	"utils/Utils.js",
+	"view/SelectShape.js",
 	"view/SceneGround.js",
 	"view/SceneObject.js",
 	"view/RoleObject.js",

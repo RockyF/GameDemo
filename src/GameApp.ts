@@ -26,7 +26,7 @@
  */
 
 ///<reference path="egret.d.ts"/>
-///<reference path="LoadingUI.ts"/>
+///<reference path="LoadingUI.ts"/>x
 ///<reference path="view/GameScene.ts"/>
 
 class GameApp extends egret.DisplayObjectContainer {

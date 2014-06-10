@@ -65,6 +65,27 @@ var egret;
             }
         };
 
+        Graphics.prototype.drawCircle = function (x, y, r) {
+            var rendererContext = this.renderContext;
+            if (this.strokeStyleColor) {
+                this.commandQueue.push(new Command(function (x, y, r, color) {
+                    this.canvasContext.strokeStyle = color;
+                    this.canvasContext.beginPath();
+                    this.canvasContext.arc(rendererContext._transformTx + x, rendererContext._transformTy + y, r, 0, Math.PI * 2);
+                    this.canvasContext.closePath();
+                    this.canvasContext.stroke();
+                }, this, [x, y, r, this.strokeStyleColor]));
+            }
+            if (this.fillStyleColor) {
+                this.commandQueue.push(new Command(function (x, y, r) {
+                    this.canvasContext.beginPath();
+                    this.canvasContext.arc(rendererContext._transformTx + x, rendererContext._transformTy + y, r, 0, Math.PI * 2);
+                    this.canvasContext.closePath();
+                    this.canvasContext.fill();
+                }, this, [x, y, r]));
+            }
+        };
+
         /**
         * @param thickness {number} 一个整数，以点为单位表示线条的粗细，有效值为 0 到 255。如果未指定数字，或者未定义该参数，则不绘制线条。如果传递的值小于 0，则默认值为 0。值 0 表示极细的粗细；最大粗细为 255。如果传递的值大于 255，则默认值为 255。
         * @param color {number} 线条的十六进制颜色值（例如，红色为 0xFF0000，蓝色为 0x0000FF 等）。如果未指明值，则默认值为 0x000000（黑色）。可选。

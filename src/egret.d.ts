@@ -1,4 +1,4 @@
-/// <reference path="C:/Users/RockyF/AppData/Roaming/npm/node_modules/egret/src/jslib/DEBUG.d.ts" />
+/// <reference path="C:/Users/lenovo/AppData/Roaming/npm/node_modules/egret/src/jslib/DEBUG.d.ts" />
 /**
 * Copyright (c) 2014,Egret-Labs.org
 * All rights reserved.
@@ -3064,6 +3064,7 @@ declare module egret {
         public beginFill(color: number, alpha?: number): void;
         private _setStyle(colorStr);
         public drawRect(x: number, y: number, width: number, height: number): void;
+        public drawCircle(x: number, y: number, r: number): void;
         /**
         * @param thickness {number} 一个整数，以点为单位表示线条的粗细，有效值为 0 到 255。如果未指定数字，或者未定义该参数，则不绘制线条。如果传递的值小于 0，则默认值为 0。值 0 表示极细的粗细；最大粗细为 255。如果传递的值大于 255，则默认值为 255。
         * @param color {number} 线条的十六进制颜色值（例如，红色为 0xFF0000，蓝色为 0x0000FF 等）。如果未指明值，则默认值为 0x000000（黑色）。可选。
@@ -3378,7 +3379,7 @@ declare module egret {
         private _xmlDict;
         private _isSupportDOMParser;
         constructor();
-        private parserXML(textxml);
+        public parserXML(textxml: string): any;
     }
 }
 declare module egret {
@@ -3790,6 +3791,15 @@ declare module RES {
     }
 }
 declare module RES {
+    class XMLAnalyzer extends BinAnalyzer {
+        constructor();
+        /**
+        * 解析并缓存加载成功的数据
+        */
+        public analyzeData(resItem: ResourceItem, data: any): void;
+    }
+}
+declare module RES {
     class ResourceLoader extends egret.EventDispatcher {
         /**
         * 构造函数
@@ -3869,7 +3879,7 @@ declare module RES {
     /**
     * 加载配置文件并解析
     * @param url 配置文件路径(resource.json的路径)
-    * @param resourceRoot 资源根路径。配置中的所有url都是这个路径的相对值。
+    * @param resourceRoot 资源根路径。配置中的所有url都是这个路径的相对值。最终url是这个字符串与配置里资源项的url相加的值。
     */
     function loadConfig(url: string, resourceRoot?: string): void;
     /**
@@ -6777,8 +6787,9 @@ declare module egret {
     class UIAsset extends UIComponent {
         /**
         * @method egret.UIAsset#constructor
+        * @param source {any} 素材标识符
         */
-        constructor();
+        constructor(source?: any);
         /**
         * 矩形区域，它定义素材对象的九个缩放区域。
         * 注意:此属性仅在source的解析结果为Texture并且fileMode为BitmapFillMode.SCALE时有效。
@@ -6796,7 +6807,7 @@ declare module egret {
         private sourceChanged;
         public _source: any;
         /**
-        * 皮肤标识符。可以为Class,String,或DisplayObject实例等任意类型，具体规则由项目注入的素材适配器决定，
+        * 素材标识符。可以为Class,String,或DisplayObject实例等任意类型，具体规则由项目注入的素材适配器决定，
         * 适配器根据此属性值解析获取对应的显示对象，并赋值给content属性。
         * @member egret.UIAsset#source
         */ 

@@ -31,7 +31,7 @@ var __extends = this.__extends || function (d, b) {
     d.prototype = new __();
 };
 ///<reference path="egret.d.ts"/>
-///<reference path="LoadingUI.ts"/>
+///<reference path="LoadingUI.ts"/>x
 ///<reference path="view/GameScene.ts"/>
 var GameApp = (function (_super) {
     __extends(GameApp, _super);

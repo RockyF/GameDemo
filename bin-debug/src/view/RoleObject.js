@@ -29,7 +29,7 @@ var RoleObject = (function (_super) {
         _super.prototype.init.call(this);
 
         this._hpBar = new egret.ProgressBar();
-        this._mcSelect = new egret.Bitmap(RES.getRes("select_png"));
+        this._selectShape = new SelectShape();
     };
 
     RoleObject.prototype.initData = function (vo) {
@@ -38,9 +38,8 @@ var RoleObject = (function (_super) {
         RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
         RES.loadGroup(vo.skinName);
 
-        this._mcSelect.anchorX = 0.5;
-        this._mcSelect.anchorY = 0.5;
-        this.addChild(this._mcSelect);
+        this._selectShape.resize();
+        this.addChild(this._selectShape);
     };
 
     RoleObject.prototype.onResourceLoadComplete = function (event) {
@@ -75,8 +74,9 @@ var RoleObject = (function (_super) {
         this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
         var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
-        egret.Tween.removeTweens(this);
-        if (!this.isWalking) {
+        if (this.isWalking) {
+            egret.Tween.removeTweens(this);
+        } else {
             this.playAction(NS.ACTION_WALK);
             this.isWalking = true;
         }

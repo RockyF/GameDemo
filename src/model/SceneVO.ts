@@ -20,6 +20,7 @@ class SceneVO extends ValueObject{
 	canMove:boolean = true;
 
 	constructor(){
+		super();
 		this.id = SceneVO.ID_INK;
 		SceneVO.ID_INK++;
 	}

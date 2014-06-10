@@ -23,7 +23,7 @@ class RoleObject extends SceneObject{
 	_defaultActionName:string = NS.ACTION_IDLE;
 
 	_hpBar:egret.ProgressBar;
-	_mcSelect:egret.Bitmap;
+	_selectShape:SelectShape;
 
 	constructor(){
 		super();
@@ -33,7 +33,7 @@ class RoleObject extends SceneObject{
 		super.init();
 
 		this._hpBar = new egret.ProgressBar();
-		this._mcSelect = new egret.Bitmap(RES.getRes("select_png"));
+		this._selectShape = new SelectShape();
 	}
 
 	initData(vo:RoleVO){
@@ -42,9 +42,8 @@ class RoleObject extends SceneObject{
 		RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
 		RES.loadGroup(vo.skinName);
 
-		this._mcSelect.anchorX = 0.5;
-		this._mcSelect.anchorY = 0.5;
-		this.addChild(this._mcSelect);
+		this._selectShape.resize();
+		this.addChild(this._selectShape);
 	}
 
 	private onResourceLoadComplete(event:RES.ResourceEvent):void {
@@ -79,10 +78,9 @@ class RoleObject extends SceneObject{
 		this.armatureDisplay.scaleX = x > this.x ? -1 : 1;
 
 		var distance = Math.sqrt((this.x - x) * (this.x - x) + (this.y - y) * (this.y - y));
-		if(egret.Tween.hasAnimation(this)){
+		if(this.isWalking){
 			egret.Tween.removeTweens(this);
-		}
-		if(!this.isWalking){
+		}else{
 			this.playAction(NS.ACTION_WALK);
 			this.isWalking = true;
 		}
