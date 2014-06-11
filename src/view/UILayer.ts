@@ -12,24 +12,39 @@ class UILayer extends egret.DisplayObjectContainer{
 		}
 		return UILayer._instance;
 	}
+
+	private uiStage:egret.UIStage;
 	
 	constructor(){
 		super();
 
-		this.init();
+		RES.addEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+		RES.loadGroup("ui");
+	}
+
+	private onResourceLoadComplete(event:RES.ResourceEvent):void {
+		if (event.groupName == "ui") {
+			RES.removeEventListener(RES.ResourceEvent.GROUP_COMPLETE, this.onResourceLoadComplete, this);
+			this.init();
+		}
 	}
 
 	init():void{
-		var btn:egret.Bitmap = new egret.Bitmap(RES.getRes("btn_png"));
-		btn.x = 600;
-		btn.y = 400;
-		btn.touchEnabled = true;
-		this.addChild(btn);
-		btn.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
+		//实例化GUI根容器
+		var uiStage:egret.UIStage = new egret.UIStage();
+		this.uiStage = uiStage;
+		this.addChild(uiStage);
+
+		var button:egret.Button = new egret.Button();
+		button.skinName = ButtonSkin;
+		button.left = 0;
+		button.bottom = 0;
+		button.label = "shoot";
+		this.uiStage.addElement(button);
+		button.addEventListener(egret.TouchEvent.TOUCH_TAP, this.onTap, this);
 	}
 
 	onTap(event:egret.TouchEvent):void{
-		console.log("onTap");
 		RoleManager.getInstance().roleAttack(0);
 	}
 }

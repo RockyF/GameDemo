@@ -9,7 +9,7 @@ class RoleObject extends SceneObject{
 		var instance:RoleObject = new RoleObject();
 		var vo:RoleVO = RoleVO.create(data);
 		instance.initData(vo);
-		
+
 		return instance;
 	}
 	
@@ -23,8 +23,7 @@ class RoleObject extends SceneObject{
 	_autoPlay:boolean = true;
 	_defaultActionName:string = NS.ACTION_IDLE;
 
-	_hpBar:egret.ProgressBar;
-	_selectShape:SelectShape;
+	_hpBar:egret.ProgressBar;s
 
 	constructor(){
 		super();
@@ -34,14 +33,13 @@ class RoleObject extends SceneObject{
 		super.init();
 
 		this._hpBar = new egret.ProgressBar();
-		//this._selectShape = new SelectShape();
+		this._selectShape = new SelectShape();
+
+		this.touchEnabled = true;
 	}
 
 	initData(vo:RoleVO){
 		super.initData(vo);
-
-		//this._selectShape.resize();
-		//this.addChild(this._selectShape);
 
 		if(RES.getRes(this.vo.skinName + "_skeleton_json")){
 			this.initArmature();

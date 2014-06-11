@@ -1,6 +1,27 @@
 var game_file_list = [
+	"AssetAdapter.js",
+	"SkinAdapter.js",
 	"GameApp.js",
 	"LoadingUI.js",
+
+	"skins/ListSkin.js",
+	"skins/TreeSkin.js",
+	"skins/BackButtonSkin.js",
+	"skins/ButtonSkin.js",
+	"skins/ButtonSkin2.js",
+	"skins/ToggleButtonSkin.js",
+	"skins/AlertSkin.js",
+	"skins/ItemRendererSkin.js",
+	"skins/ScreenItemRendererSkin.js",
+	"skins/ScreenSkin.js",
+	"skins/ProgressBarSkin.js",
+	"skins/SliderThumbSkin.js",
+	"skins/HSliderSkin.js",
+	"skins/VSliderSkin.js",
+	"skins/TabBarSkin.js",
+	"skins/TreeItemRendererSkin.js",
+	"skins/TreeDisclosureButtonSkin.js",
+
 	"support/GameObject.js",
 	"support/IScript.js",
 	"support/Behavior.js",
@@ -9,6 +30,7 @@ var game_file_list = [
 	"control/MainController.js",
 	"model/GameSetting.js",
 	"model/RoleManager.js",
+	"model/SelectManager.js",
 	"model/ValueObject.js",
 	"model/SceneVO.js",
 	"model/RoleVO.js",
@@ -21,5 +43,5 @@ var game_file_list = [
 	"script/Cowboy.js",
 	"script/GameMain.js",
 	"view/GameScene.js",
-	"model/Context.js",];
+	"model/Context.js"];
 var document_class = "GameApp";

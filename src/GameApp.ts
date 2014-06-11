@@ -45,9 +45,9 @@ class GameApp extends egret.DisplayObjectContainer {
 	private onAddToStage(event:egret.Event) {
 		egret.Profiler.getInstance().run();
 		//注入自定义的素材解析器
-		//egret.Injector.mapClass("egret.IAssetAdapter", AssetAdapter);
+		egret.Injector.mapClass("egret.IAssetAdapter", AssetAdapter);
 		//注入自定义的皮肤解析器
-		//egret.Injector.mapClass("egret.ISkinAdapter", SkinAdapter);
+		egret.Injector.mapClass("egret.ISkinAdapter", SkinAdapter);
 
 		//设置加载进度界面
 		this.loadingView = new LoadingUI();
@@ -88,8 +88,6 @@ class GameApp extends egret.DisplayObjectContainer {
 			this.loadingView.setProgress(event.itemsLoaded, event.itemsTotal);
 		}
 	}
-
-	private textContainer:egret.Sprite;
 
 	/**
 	 * 创建游戏场景

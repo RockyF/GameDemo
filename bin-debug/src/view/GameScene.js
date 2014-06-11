@@ -10,6 +10,7 @@ var __extends = this.__extends || function (d, b) {
 ///<reference path="../egret.d.ts"/>
 ///<reference path="../model/SceneVO.ts"/>
 ///<reference path="../model/RoleManager.ts"/>
+///<reference path="../model/SelectManager.ts"/>
 ///<reference path="../view/SceneObject.ts"/>
 ///<reference path="../view/SceneGround.ts"/>
 ///<reference path="../control/MainController.ts"/>
@@ -48,9 +49,20 @@ var GameScene = (function (_super) {
     };
 
     GameScene.prototype.onSceneClicked = function (event) {
-        //console.log(event.localX, event.localY);
-        var ro = RoleManager.getInstance().getRoleById(0);
-        ro.walkTo(event.localX, event.localY);
+        if (event.target instanceof RoleObject) {
+            if (!SelectManager.getInstance().setSelect((event.target))) {
+                this.selectedObjectMoveTo(event.localX, event.localY);
+            }
+        } else {
+            this.selectedObjectMoveTo(event.localX, event.localY);
+        }
+    };
+
+    GameScene.prototype.selectedObjectMoveTo = function (x, y) {
+        var ro = (SelectManager.getInstance().getSelectSo());
+        if (ro) {
+            ro.walkTo(x, y);
+        }
     };
 
     GameScene.prototype.addToScene = function (id) {

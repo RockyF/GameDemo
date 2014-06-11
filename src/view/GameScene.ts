@@ -5,6 +5,7 @@
 ///<reference path="../egret.d.ts"/>
 ///<reference path="../model/SceneVO.ts"/>
 ///<reference path="../model/RoleManager.ts"/>
+///<reference path="../model/SelectManager.ts"/>
 ///<reference path="../view/SceneObject.ts"/>
 ///<reference path="../view/SceneGround.ts"/>
 ///<reference path="../control/MainController.ts"/>
@@ -52,9 +53,20 @@ class GameScene extends egret.Sprite{
 	}
 
 	private onSceneClicked(event:egret.TouchEvent):void{
-		//console.log(event.localX, event.localY);
-		var ro:RoleObject = RoleManager.getInstance().getRoleById(0);
-		ro.walkTo(event.localX, event.localY);
+		if(event.target instanceof RoleObject){
+			if(!SelectManager.getInstance().setSelect(<SceneObject>(event.target))){
+				this.selectedObjectMoveTo(event.localX, event.localY);
+			}
+		}else{
+			this.selectedObjectMoveTo(event.localX, event.localY);
+		}
+	}
+
+	selectedObjectMoveTo(x:number, y:number):void{
+		var ro:RoleObject = <RoleObject>(SelectManager.getInstance().getSelectSo());
+		if(ro){
+			ro.walkTo(x, y);
+		}
 	}
 
 	addToScene(id:number):void{

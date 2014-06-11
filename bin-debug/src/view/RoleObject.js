@@ -34,14 +34,14 @@ var RoleObject = (function (_super) {
         _super.prototype.init.call(this);
 
         this._hpBar = new egret.ProgressBar();
-        //this._selectShape = new SelectShape();
+        this._selectShape = new SelectShape();
+
+        this.touchEnabled = true;
     };
 
     RoleObject.prototype.initData = function (vo) {
         _super.prototype.initData.call(this, vo);
 
-        //this._selectShape.resize();
-        //this.addChild(this._selectShape);
         if (RES.getRes(this.vo.skinName + "_skeleton_json")) {
             this.initArmature();
         } else {

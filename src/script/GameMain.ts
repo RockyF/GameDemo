@@ -15,12 +15,12 @@ class GameMain extends Behavior implements IScript{
 	}
 
 	onCreate():void {
-		this.createRole();
-		this.createRole();
+		//this.createRole();
+		//this.createRole();
 		//setInterval(this.createRole, 1000);
-		/*for(var i = 0; i < 100; i++){
+		for(var i = 0; i < 10; i++){
 			this.createRole();
-		}*/
+		}
 	}
 
 	createRole():void{
